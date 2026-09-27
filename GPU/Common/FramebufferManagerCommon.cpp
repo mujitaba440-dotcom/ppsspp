@@ -3228,7 +3228,12 @@ void FramebufferManagerCommon::ReadbackFramebuffer(VirtualFramebuffer *vfb, int 
 	if (w <= 0 || h <= 0) {
 		ERROR_LOG(Log::FrameBuf, "Bad inputs to ReadbackFramebufferSync: %d %d %d %d", x, y, w, h);
 		return;
-	}
+	static int readbackCounter = 0;
+readbackCounter++;
+if (readbackCounter % 2 != 0) {
+    return;
+}
+}
 
 	// Note that ReadbackDepthBufferSync can stretch on its own while converting data format, so we don't need to downscale in that case.
 	if (vfb->renderScaleFactor == 1 || channel == RASTER_DEPTH) {
